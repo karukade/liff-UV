@@ -117,15 +117,15 @@ class Tab {
 // On window load //
 // -------------- //
 
-// window.onload = () => {
-//   initializeApp()
-// }
+window.onload = () => {
+  initializeApp()
+}
 
 // -------------- //
 // UI functions //
 // -------------- //
 
-// uiToggle.addEventListener('click', uiToggleHandler)
+uiToggle.addEventListener('click', uiToggleHandler)
 
 new Tab(document.getElementById('js-tab-list'))
 const lifeGage = new LifeGage()
