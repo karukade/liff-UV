@@ -10,8 +10,11 @@ const PSDI_CHARACTERISTIC_UUID = '26E2B12B-85F0-4F3F-9FDD-91D114270E6E'
 // const uiUVIndex = document.getElementById('uvIndex')
 // const uiUVValue = document.getElementById('uvValue')
 // const uiError = document.getElementById('err')
+const de = document.getElementById('debug')
 const uiToggle = document.getElementById('toggle')
 const uvLevelMap = ['弱い', '中程度', '強い', 'とても強い', '危険']
+
+let callCounter = 0
 
 class LifeGage {
   constructor() {
@@ -38,6 +41,7 @@ class LifeGage {
   }
 
   moveBar() {
+    de.textContent = ++callCounter
     this.bar.style.transform = `translateX(${this.value}%)`
     this.switchStateIfNeed()
   }
