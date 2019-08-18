@@ -72,7 +72,7 @@ class LifeGage {
     if (this.value <= -100) {
       this.value = -100
     } else {
-      this.value = this.value - 0.5
+      --this.value
     }
     this.moveBar()
   }
