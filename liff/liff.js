@@ -192,7 +192,7 @@ function uiUpdateValues(uvValues) {
   // uiUVValue.innerText = `UV VALUE: ${uvValues[0]}`
   // uiUVIndex.innerText = `UV INDEX: ${uvValues[1]}`
   const uvValue = Number(uvValues[0])
-  lifeGage.setUvIndex(uvIndex)
+  lifeGage.setUvIndex(uvValue)
   uvLevel.switchState(Number(uvValues[1]))
 }
 
