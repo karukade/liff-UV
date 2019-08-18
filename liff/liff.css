@@ -239,3 +239,8 @@ body {
 .container {
   padding: 20px;
 }
+
+.value {
+  font-size: 16px;
+  color: #333333;
+}

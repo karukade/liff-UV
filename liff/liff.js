@@ -182,7 +182,7 @@ function liffGetReadCharacteristic(characteristic) {
 function liffCharacteristicValueChanged(e) {
   const buff = new Uint8Array(e.target.value.buffer)
   try {
-    const val = Number(new TextDecoder().decode(buff))
+    const val = new TextDecoder().decode(buff)
     if (val) {
       uiUpdateValues(val)
     }
