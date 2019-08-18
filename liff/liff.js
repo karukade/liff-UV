@@ -48,7 +48,7 @@ class LifeGage {
 
   loop() {
     this.timer = setTimeout(() => {
-      if (this.uvIndex > 0) {
+      if (this.uvIndex > 1) {
         this.decrease()
       } else {
         this.increase()
@@ -115,6 +115,7 @@ class UvLevel {
     }
     this.panel.classList.add(cls)
     this.levelText.textContent = levelText
+    this.current = index
   }
 }
 
@@ -195,9 +196,9 @@ function uiToggleDeviceConnected(connected) {
 function uiUpdateValues(uvValues) {
   // uiUVValue.innerText = `UV VALUE: ${uvValues[0]}`
   // uiUVIndex.innerText = `UV INDEX: ${uvValues[1]}`
-  const uvValue = Number(uvValues[0])
-  lifeGage.setUvIndex(uvValue)
-  uvLevel.switchState(Number(uvValues[1]))
+  const index = Number(uvValues[1])
+  lifeGage.setUvIndex(index)
+  uvLevel.switchState(Number(index)
 }
 
 function uiToggleUVScanToggle(state) {
