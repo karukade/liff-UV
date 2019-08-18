@@ -8,6 +8,7 @@ const PSDI_SERVICE_UUID = 'E625601E-9E55-4597-A598-76018A0D293D'
 const PSDI_CHARACTERISTIC_UUID = '26E2B12B-85F0-4F3F-9FDD-91D114270E6E'
 
 const uiUVIndex = document.getElementById('uvIndex')
+const uiUVValue = document.getElementById('uvValue')
 const uiError = document.getElementById('err')
 const uiToggle = document.getElementById('toggle')
 
@@ -32,6 +33,9 @@ function uiStatusError(message) {
 }
 
 function uiToggleDeviceConnected(connected) {
+  if (!connected) {
+    uiToggleUVScanToggle(false)
+  }
   // if (connected) {
   //   uiStatus.innerText = 'Connected!';
   // } else {
@@ -39,8 +43,9 @@ function uiToggleDeviceConnected(connected) {
   // }
 }
 
-function uiUpdateValues(uvIndex) {
-  uiUVIndex.innerText = `UV INDEX: ${uvIndex}`
+function uiUpdateValues(uvValues) {
+  uiUVValue.innerText = `UV VALUE: ${uvValues[0]}`
+  uiUVIndex.innerText = `UV INDEX: ${uvValues[1]}`
 }
 
 function uiToggleUVScanToggle(state) {
@@ -182,7 +187,7 @@ function liffGetReadCharacteristic(characteristic) {
 function liffCharacteristicValueChanged(e) {
   const buff = new Uint8Array(e.target.value.buffer)
   try {
-    const val = new TextDecoder().decode(buff)
+    const val = new TextDecoder().decode(buff).split(',')
     if (val) {
       uiUpdateValues(val)
     }
