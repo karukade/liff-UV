@@ -54,7 +54,7 @@ class LifeGage {
         this.increase()
       }
       this.loop()
-    }, 200)
+    }, 300)
   }
 
   increase() {
@@ -62,14 +62,18 @@ class LifeGage {
     if (this.value >= 0) {
       this.value = 0
     } else {
-      ++this.value
+      this.value = this.value + 3
     }
     this.moveBar()
   }
 
   decrease() {
-    if (this.value <= -100) return
-    --this.value
+    if (this.value === -100) return
+    if (this.value <= -100) {
+      this.value = -100
+    } else {
+      this.value = this.value - 0.5
+    }
     this.moveBar()
   }
 
