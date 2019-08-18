@@ -49,7 +49,7 @@ function uiToggleUVScanToggle(state) {
 }
 
 function uiToggleHandler(e) {
-  const isStart = e.target.textContent === 'Stop' ? true : false
+  const isStart = e.target.textContent === 'Start' ? true : false
   uiToggleUVScanToggle(isStart)
   liffToggleState(isStart)
 }
