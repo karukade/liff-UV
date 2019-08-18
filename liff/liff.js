@@ -198,7 +198,7 @@ function uiUpdateValues(uvValues) {
   // uiUVIndex.innerText = `UV INDEX: ${uvValues[1]}`
   const index = Number(uvValues[1])
   lifeGage.setUvIndex(index)
-  uvLevel.switchState(Number(index)
+  uvLevel.switchState(index)
 }
 
 function uiToggleUVScanToggle(state) {
