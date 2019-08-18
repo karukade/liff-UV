@@ -155,6 +155,12 @@ function uiToggleDeviceConnected(connected) {
 function uiUpdateValues(uvValues) {
   // uiUVValue.innerText = `UV VALUE: ${uvValues[0]}`
   // uiUVIndex.innerText = `UV INDEX: ${uvValues[1]}`
+  const uvValue = Number(uvValues[0])
+  if (uvValue > 0) {
+    lifeGage.decrease()
+  } else {
+    lifeGage.increase()
+  }
   uvLevel.switchState(Number(uvValues[1]))
 }
 
