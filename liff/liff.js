@@ -7,20 +7,129 @@ const NOTIFY_CHARACTERISTIC_UUID = '62FBD229-6EDD-4D1A-B554-5C4E1BB29169'
 const PSDI_SERVICE_UUID = 'E625601E-9E55-4597-A598-76018A0D293D'
 const PSDI_CHARACTERISTIC_UUID = '26E2B12B-85F0-4F3F-9FDD-91D114270E6E'
 
-const uiUVIndex = document.getElementById('uvIndex')
-const uiUVValue = document.getElementById('uvValue')
-const uiError = document.getElementById('err')
+// const uiUVIndex = document.getElementById('uvIndex')
+// const uiUVValue = document.getElementById('uvValue')
+// const uiError = document.getElementById('err')
 const uiToggle = document.getElementById('toggle')
+const uvLevelMap = ['弱い', '中程度', '強い', 'とても強い', '危険']
+
+class LifeGage {
+  constructor() {
+    this.container = document.getElementById('tab2')
+    this.bar = document.getElementById('js-life-bar')
+    this.state = 'default'
+    this.value = 0
+  }
+
+  increase() {
+    if (this.value === 0) return
+    if (this.value >= 0) {
+      this.value = 0
+    } else {
+      ++this.value
+    }
+    this.moveBar()
+  }
+
+  decrease() {
+    if (this.value <= -100) return
+    --this.value
+    this.moveBar()
+  }
+
+  moveBar() {
+    this.bar.style.transform = `translateX(${this.value}%)`
+    this.switchStateIfNeed()
+  }
+
+  switchStateIfNeed() {
+    let state
+    if (this.value >= -50) {
+      state = 'default'
+    }
+    if (this.value < -50) {
+      state = 'danger'
+    }
+    if (this.state !== state) {
+      const cls = state === 'default' ? 'is-def' : 'is-danger'
+      const removeCls = this.state === 'default' ? 'is-def' : 'is-danger'
+      this.container.classList.remove(removeCls)
+      this.container.classList.add(cls)
+    }
+    this.state = state
+  }
+}
+
+class UvLevel {
+  constructor() {
+    this.panel = document.getElementById('tab1')
+    this.levelText = document.getElementById('js-ttl-level')
+  }
+
+  switchState(index) {
+    const cls = `is-level-${index}`
+    const levelText = uvLevelMap[--index]
+
+    if (this.current) {
+      this.panel.classList.remove(`is-level-${this.current}`)
+    }
+    this.panel.classList.add(cls)
+    this.levelText.textContent = levelText
+  }
+}
+
+class Tab {
+  constructor(tabList) {
+    this.triggers = [...tabList.querySelectorAll('.js-tab-btn')]
+    this.init()
+  }
+
+  init() {
+    this.triggers.forEach(trigger => {
+      const target = document.getElementById(trigger.dataset.tab)
+      const isActive = trigger.classList.contains('is-active')
+      trigger.dataset.tab = target
+
+      if (isActive) {
+        this.current = { trigger, target }
+      }
+      trigger.addEventListener('click', e => {
+        if (trigger === this.current.trigger) return
+        this.toggle(trigger, target)
+      })
+    })
+  }
+
+  toggle(trigger, target) {
+    trigger.classList.add('is-active')
+    target.classList.add('is-show')
+    this.deactiveCurrent()
+    this.current = { trigger, target }
+  }
+
+  deactiveCurrent() {
+    this.current.trigger.classList.remove('is-active')
+    this.current.target.classList.remove('is-show')
+  }
+}
 
 // -------------- //
 // On window load //
 // -------------- //
 
-window.onload = () => {
-  initializeApp()
-}
+// window.onload = () => {
+//   initializeApp()
+// }
 
-uiToggle.addEventListener('click', uiToggleHandler)
+// -------------- //
+// UI functions //
+// -------------- //
+
+// uiToggle.addEventListener('click', uiToggleHandler)
+
+new Tab(document.getElementById('js-tab-list'))
+const lifeGage = new LifeGage()
+const uvLevel = new UvLevel()
 
 function makeErrorMsg(errorObj) {
   if (typeof errorObj === 'string' || typeof errorObj === 'number')
@@ -44,8 +153,9 @@ function uiToggleDeviceConnected(connected) {
 }
 
 function uiUpdateValues(uvValues) {
-  uiUVValue.innerText = `UV VALUE: ${uvValues[0]}`
-  uiUVIndex.innerText = `UV INDEX: ${uvValues[1]}`
+  // uiUVValue.innerText = `UV VALUE: ${uvValues[0]}`
+  // uiUVIndex.innerText = `UV INDEX: ${uvValues[1]}`
+  uvLevel.switchState(Number(uvValues[1]))
 }
 
 function uiToggleUVScanToggle(state) {
@@ -188,9 +298,7 @@ function liffCharacteristicValueChanged(e) {
   const buff = new Uint8Array(e.target.value.buffer)
   try {
     const val = new TextDecoder().decode(buff).split(',')
-    if (val) {
-      uiUpdateValues(val)
-    }
+    uiUpdateValues(val)
   } catch (e) {
     uiStatusError(e)
   }

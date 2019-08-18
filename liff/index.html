@@ -11,10 +11,46 @@
 
   <body>
     <div class="container">
+      <header class="header">
+        <div id="js-tab-list" class="tab">
+          <button class="tab-btn js-tab-btn is-active" data-tab="tab1">UV LEVEL</button>
+          <button class="tab-btn js-tab-btn" data-tab="tab2">日陰を歩け</button>
+        </div>
+      </header>
+      <div class="tab-container">
+        <section id="tab1" class="tab-panel is-show">
+          <header>
+            <h1 class="ttl-uv">UV Level</h1>
+            <p class="ttl-level" id="js-ttl-level"></p>
+          </header>
+          <div class="level-gage">
+            <div class="level-gage-item"></div>
+            <div class="level-gage-item"></div>
+            <div class="level-gage-item"></div>
+            <div class="level-gage-item"></div>
+            <div class="level-gage-item"></div>
+          </div>
+          <p class="level-desc" id="js-level-desc"></p>
+        </section>
+        <section id="tab2" class="tab-panel is-def">
+          <div class="face" id="js-face">
+            <img src="./img/face-def.png" alt="" class="face-img face-def">
+            <img src="./img/face-danger.png" alt="" class="face-img face-danger">
+          </div>
+          <div class="life-gage">
+            <div id="js-life-bar" class="life-gage-life"></div>
+          </div>
+          <button class="btn" id="toggle">Start</button>
+          <!-- <div class="overlay" id="js-overlay">
+            <button class="btn" id="start">START</button>
+          </div> -->
+        </section>
+      </div>
+      <!-- <h1>UV LEVL</h1>
       <div><button id="toggle">Start</button></div>
       <div id="err"></div>
       <div id="uvIndex" class="value"></div>
-      <div id="uvValue" class="value"></div>
+      <div id="uvValue" class="value"></div> -->
     </div>
     <script src="liff.js"></script>
   </body>
