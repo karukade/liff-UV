@@ -41,7 +41,6 @@ class LifeGage {
   }
 
   moveBar() {
-    de.textContent = ++callCounter
     this.bar.style.transform = `translateX(${this.value}%)`
     this.switchStateIfNeed()
   }
@@ -306,6 +305,7 @@ function liffGetReadCharacteristic(characteristic) {
 
 function liffCharacteristicValueChanged(e) {
   const buff = new Uint8Array(e.target.value.buffer)
+  de.textContent = ++callCounter
   try {
     const val = new TextDecoder().decode(buff).split(',')
     uiUpdateValues(val)
