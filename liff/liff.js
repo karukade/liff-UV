@@ -21,7 +21,40 @@ class LifeGage {
     this.container = document.getElementById('tab2')
     this.bar = document.getElementById('js-life-bar')
     this.state = 'default'
+    this.uvIndex = 0
+    this.timer = null
     this.value = 0
+  }
+
+  setUvIndex(index) {
+    this.uvIndex = index
+  }
+
+  toggle(isStart) {
+    if (isStart) {
+      this.start()
+    } else {
+      this.stop()
+    }
+  }
+
+  start() {
+    this.loop()
+  }
+
+  stop() {
+    clearTimeout(this.timer)
+  }
+
+  loop() {
+    this.timer = setTimeout(() => {
+      if (this.uvIndex > 0) {
+        this.decrease()
+      } else {
+        this.increase()
+      }
+      this.loop()
+    }, 200)
   }
 
   increase() {
@@ -159,11 +192,7 @@ function uiUpdateValues(uvValues) {
   // uiUVValue.innerText = `UV VALUE: ${uvValues[0]}`
   // uiUVIndex.innerText = `UV INDEX: ${uvValues[1]}`
   const uvValue = Number(uvValues[0])
-  if (uvValue > 0) {
-    lifeGage.decrease()
-  } else {
-    lifeGage.increase()
-  }
+  lifeGage.setUvIndex(uvIndex)
   uvLevel.switchState(Number(uvValues[1]))
 }
 
@@ -175,6 +204,7 @@ function uiToggleUVScanToggle(state) {
 function uiToggleHandler(e) {
   const isStart = e.target.textContent === 'Start' ? true : false
   uiToggleUVScanToggle(isStart)
+  lifeGage.toggle(isStart)
   liffToggleState(isStart)
 }
 
@@ -305,7 +335,6 @@ function liffGetReadCharacteristic(characteristic) {
 
 function liffCharacteristicValueChanged(e) {
   const buff = new Uint8Array(e.target.value.buffer)
-  de.textContent = ++callCounter
   try {
     const val = new TextDecoder().decode(buff).split(',')
     uiUpdateValues(val)
